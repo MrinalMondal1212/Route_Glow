@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  /* Background */
+  --color-dark: #020617;
+  --color-dark-secondary: #0F172A;
+  --color-dark-third: #1E293B;
+
+  /* Brand */
+  --color-border: #1E40AF;
+  --color-blue: #3B82F6;
+  --color-blue-light: #60A5FA;
+
+  /* Text */
+  --color-text: #FFFFFF;
+  --color-text-secondary: #94A3B8;
+
+  /* Other */
+  --color-border: #1E40AF;
+  --color-yellow: #F59E0B;
+}
+
+
+@keyframes review-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-review-scroll {
+  animation: review-scroll 35s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-review-scroll {
+    animation: none;
+  }
+}
