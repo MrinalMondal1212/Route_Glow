@@ -25,6 +25,10 @@ app.use("/api", admin)
 const bus = require("./route/busRoute")
 app.use("/api", bus)
 
+//trip 
+const trip = require("./route/triproute")
+app.use("/api", trip)
+
 const port = process.env.PORT || 3009
 app.listen(port,()=>{
     console.log(`server running on port http://localhost:${port}` )

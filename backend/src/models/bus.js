@@ -16,6 +16,16 @@ const busSchema = new schema(
       type: String,
       required: true,
     },
+    source: {
+      type: String,
+      required: true,
+      trim : true,
+    },
+    destination: {
+      type: String,
+      required: true,
+      trim : true,
+    }, 
     busType: {
       type: String,
       enum: ["Seater", "Sleeper", "Semi-Sleeper"],

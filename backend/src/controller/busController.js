@@ -12,6 +12,8 @@ class busController {
         totalSeats,
         description,
         amenities,
+        source,
+        destination,
       } = req.body;
 
       // Validate required fields
@@ -21,7 +23,9 @@ class busController {
         !busType ||
         !category ||
         totalSeats == null ||
-        !description
+        !description ||
+        !source ||
+        !destination
       ) {
         return res.status(statuscode.BAD_REQUEST).json({
           success: false,
@@ -59,6 +63,8 @@ class busController {
         category,
         totalSeats,
         description,
+        source,
+        destination,
         amenities: amenities || [],
       });
 
@@ -131,6 +137,8 @@ class busController {
         totalSeats,
         description,
         amenities,
+        source,
+        destination
       } = req.body;
 
       const bus = await busModel.findOneAndUpdate(
@@ -143,6 +151,8 @@ class busController {
           totalSeats,
           description,
           amenities,
+          source, 
+          destination
         },
         { new: true, runValidators: true },
       );
@@ -164,31 +174,34 @@ class busController {
       });
     }
   }
-  // soft delete 
+  // soft delete
   async softDelete(req, res) {
     try {
-      const company = req.user.id
-      const id = req.params.id
-      const deleteBus = await busModel.findOneAndUpdate({ _id: id, companyId: company },{isDeleted : true},{new : true})
+      const company = req.user.id;
+      const id = req.params.id;
+      const deleteBus = await busModel.findOneAndUpdate(
+        { _id: id, companyId: company },
+        { isDeleted: true },
+        { new: true },
+      );
       if (!deleteBus) {
         return res.status(statuscode.NOT_FOUND).json({
           success: false,
-          message : "Bus is not found"
-        })
+          message: "Bus is not found",
+        });
       }
       //
 
       return res.status(statuscode.OK).json({
         success: true,
         message: "Bus is deleted successfully",
-        data : deleteBus
-      })
-      
+        data: deleteBus,
+      });
     } catch (error) {
       return res.status(statuscode.SERVER_ERROR).json({
         success: false,
-        message : "Internal server error"
-      })
+        message: "Internal server error",
+      });
     }
   }
 }
