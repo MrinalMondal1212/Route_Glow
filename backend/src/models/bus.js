@@ -31,6 +31,14 @@ const busSchema = new schema(
       enum: ["Seater", "Sleeper", "Semi-Sleeper"],
       required: true,
     },
+    busImage: {
+      type: String,
+      default: "busImage.jpg",
+    },
+    destinationImage: {
+      type: String,
+      default : "destination.jpg"
+    },
     category: {
       type: String,
       enum: ["AC", "NON AC"],

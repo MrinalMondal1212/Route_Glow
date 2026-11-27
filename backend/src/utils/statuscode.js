@@ -5,7 +5,8 @@ const httpStatusCode = {
     "OK": 200,
     "CREATED": 201,
     "FORBIDDEN": 403,
-    "BAD_REQUEST": 400
+    "BAD_REQUEST": 400,
+    "CONFLICT": 409
 
 }
 module.exports=httpStatusCode

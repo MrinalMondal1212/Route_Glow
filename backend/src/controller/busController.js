@@ -1,87 +1,109 @@
 const busModel = require("../models/bus");
 const statuscode = require("../utils/statuscode");
+const uploadToCloudinary = require("../utils/cloudinaryUploads");
 
 class busController {
-  async createBus(req, res) {
-    try {
-      const {
-        busName,
-        busNumber,
-        busType,
-        category,
-        totalSeats,
-        description,
-        amenities,
-        source,
-        destination,
-      } = req.body;
+  
+async createBus(req, res) {
+  try {
+    const {
+      busName,
+      busNumber,
+      busType,
+      category,
+      totalSeats,
+      description,
+      amenities,
+      source,
+      destination,
+    } = req.body;
 
-      // Validate required fields
-      if (
-        !busName ||
-        !busNumber ||
-        !busType ||
-        !category ||
-        totalSeats == null ||
-        !description ||
-        !source ||
-        !destination
-      ) {
-        return res.status(statuscode.BAD_REQUEST).json({
-          success: false,
-          message: "All required fields must be provided",
-        });
-      }
-
-      // Check whether the authenticated user is an approved company
-      if (
-        req.user.role !== "company" ||
-        req.user.companyStatus !== "approved"
-      ) {
-        return res.status(statuscode.FORBIDDEN).json({
-          success: false,
-          message: "Only approved companies can post bus",
-        });
-      }
-
-      // Check whether bus number already exists
-      const checkbusNumber = await busModel.findOne({ busNumber });
-
-      if (checkbusNumber) {
-        return res.status(statuscode.BAD_REQUEST).json({
-          success: false,
-          message: "Bus number already exists",
-        });
-      }
-
-      // Create bus
-      const create = await busModel.create({
-        companyId: req.user.id,
-        busName,
-        busNumber,
-        busType,
-        category,
-        totalSeats,
-        description,
-        source,
-        destination,
-        amenities: amenities || [],
-      });
-
-      return res.status(statuscode.CREATED).json({
-        success: true,
-        message: "Bus created successfully",
-        data: create,
-      });
-    } catch (error) {
-      console.log("Create Bus Error:", error);
-
-      return res.status(statuscode.SERVER_ERROR).json({
+    if (
+      !busName ||
+      !busNumber ||
+      !busType ||
+      !category ||
+      totalSeats == null ||
+      !description ||
+      !source ||
+      !destination
+    ) {
+      return res.status(statuscode.BAD_REQUEST).json({
         success: false,
-        message: "Internal server error",
+        message: "All required fields must be provided",
       });
     }
+
+    if (
+      req.user.role !== "company" ||
+      req.user.companyStatus !== "approved"
+    ) {
+      return res.status(statuscode.FORBIDDEN).json({
+        success: false,
+        message: "Only approved companies can post bus",
+      });
+    }
+
+    const checkbusNumber = await busModel.findOne({ busNumber });
+
+    if (checkbusNumber) {
+      return res.status(statuscode.BAD_REQUEST).json({
+        success: false,
+        message: "Bus number already exists",
+      });
+    }
+
+    // Upload bus image
+    let busImageUrl = "busImage.jpg";
+
+    if (req.files?.busImage?.[0]) {
+      busImageUrl = await uploadToCloudinary(
+        req.files.busImage[0].buffer,
+        "routeglow/buses"
+      );
+    }
+
+    // Upload destination image
+    let destinationImageUrl = "destination.jpg";
+
+    if (req.files?.destinationImage?.[0]) {
+      destinationImageUrl = await uploadToCloudinary(
+        req.files.destinationImage[0].buffer,
+        "routeglow/destinations"
+      );
+    }
+
+    const create = await busModel.create({
+      companyId: req.user.id,
+      busName,
+      busNumber,
+      busType,
+      category,
+      totalSeats,
+      description,
+      source,
+      destination,
+      amenities: amenities || [],
+      busImage: busImageUrl,
+      destinationImage: destinationImageUrl,
+    });
+
+    return res.status(statuscode.CREATED).json({
+      success: true,
+      message: "Bus created successfully",
+      data: create,
+    });
+
+  } catch (error) {
+    console.log("Create Bus Error:", error);
+
+    return res.status(statuscode.SERVER_ERROR).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
+}
+
   //get all buses
   async getAllbus(req, res) {
     try {

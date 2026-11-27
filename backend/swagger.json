@@ -1,0 +1,41 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "RouteGlow API",
+      "version": "1.0.0",
+      "description": "API documentation for RouteGlow Bus Ticket Booking System",
+      "contact": {
+        "name": "RouteGlow"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3009"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Authentication",
+        "description": "Authentication APIs"
+      },
+      {
+        "name": "Admin",
+        "description": "Admin APIs"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "description": "Enter your JWT token"
+        }
+      }
+    }
+  },
+  "apis": [
+    "./src/route/*.js"
+  ]
+}
