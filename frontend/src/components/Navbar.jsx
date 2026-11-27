@@ -27,9 +27,9 @@ const Navbar = () => {
                 <NavLink to="/">Contact</NavLink>
                 <NavLink to="/">Services</NavLink>
               </div>
-              <div className="text-white cursor-pointer flex  gap-4 justify-center items-center bg-[#1e40af] h-[40px] w-[150px] font-bold rounded-lg">
-               <LogIn /> <NavLink > Login</NavLink>
-              </div>
+              <NavLink to="login" className="text-white cursor-pointer flex  gap-4 justify-center hover:text-yellow-300 hover:bg-indigo-500 items-center bg-[#1e40af] h-[40px] w-[150px] font-bold rounded-lg">
+               <LogIn />  Login
+              </NavLink>
             </div>
           </div>
         </div>

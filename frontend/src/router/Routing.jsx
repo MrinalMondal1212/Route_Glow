@@ -4,6 +4,9 @@ import Home from "../pages/Home";
 import ExploreBuses from "../pages/ExploreBuses";
 import SelectSeats from "../components/SelectSeats";
 import PassengerDetails from "../components/PassengerDetails";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import CompanyRegister from "../pages/CompanyRegister";
 
 const Routing = createBrowserRouter([
   {
@@ -27,6 +30,18 @@ const Routing = createBrowserRouter([
         element : <PassengerDetails/>
       }
     ],
+  },
+  {
+    path: "/login",
+    element : <LoginPage/>
+  },
+  {
+    path: "/register",
+    element : <RegisterPage/>
+  },
+  {
+    path: "/company-register",
+    element : <CompanyRegister/>
   },
 ]);
 
